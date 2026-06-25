@@ -1,0 +1,15 @@
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/bin/Debug/net10.0/backoffice
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/bin/Debug/net10.0/backoffice.deps.json
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/bin/Debug/net10.0/backoffice.runtimeconfig.json
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/bin/Debug/net10.0/backoffice.dll
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/bin/Debug/net10.0/backoffice.pdb
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/backoffice.GeneratedMSBuildEditorConfig.editorconfig
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/backoffice.AssemblyInfoInputs.cache
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/backoffice.AssemblyInfo.cs
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/backoffice.csproj.CoreCompileInputs.cache
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/backoffice.sourcelink.json
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/backoffice.dll
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/refint/backoffice.dll
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/backoffice.pdb
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/backoffice.genruntimeconfig.cache
+/home/luca/Proyectos/Luca/progra3/mis_tarjetas/backoffice/obj/Debug/net10.0/ref/backoffice.dll
