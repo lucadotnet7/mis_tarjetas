@@ -1,45 +1,15 @@
-﻿// using System;
-// // using MySql.Data.MySqlClient; 
+﻿using Backoffice.Views;
 
-// namespace Progra3Card.Administrativo
-// {
-//     class Program
-//     {
-//         private static string connectionString = "Server=localhost;Database=mi_banco_db;Uid=root;Pwd=;";
-
-//         static void Main(string[] args)
-//         {
-//             bool salir = false;
-//             while (!salir)
-//             {
-//                 Console.Clear();
-//                 Console.WriteLine("========================================");
-//                 Console.WriteLine("    SISTEMA ADMINISTRATIVO PROGRA3CARD   ");
-//                 Console.WriteLine("========================================");
-//                 Console.WriteLine("1. Emitir Nueva Tarjeta (Alta de Cliente)");
-//                 Console.WriteLine("2. Listar Tarjetas");
-//                 Console.WriteLine("3. Ver Detalle de una Tarjeta / Cliente");
-//                 Console.WriteLine("4. Eliminar Tarjeta (Baja de Sistema)");
-//                 Console.WriteLine("5. Emitir Nueva Liquidación Mensual");
-//                 Console.WriteLine("6. Salir");
-//                 Console.WriteLine("========================================");
-//                 Console.Write("Seleccione una opción: ");
-
-//                 switch (Console.ReadLine())
-//                 {
-//                     case "1": MenuEmitirTarjeta(); break;
-//                     case "2": MenuListarTarjetas(); break;
-//                     case "3": MenuVerDetalleTarjeta(); break;
-//                     case "4": MenuEliminarTarjeta(); break;
-//                     case "5": MenuEmitirLiquidacion(); break;
-//                     case "6": salir = true; break;
-//                     default:
-//                         Console.WriteLine("Opción no válida. Presione una tecla para continuar...");
-//                         Console.ReadKey();
-//                         break;
-//                 }
-//             }
-//         }
+namespace Backoffice
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MainMenu.Start();
+        }
+    }
+}
 
 //         // Funciones a completar:
 
