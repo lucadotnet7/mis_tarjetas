@@ -30,7 +30,7 @@
             // no hubo errores , abro la conexion
             if($conexion){
                 // guardo la consulta comparando los 4 campos del formulario
-                $query = "SELECT * FROM usuarios WHERE '$tipo_doc' = tipo_doc AND  '$documento'  = documento AND  '$nombre_usuario' = usuario AND '$password' = password";
+                $query = " SELECT * FROM usuarios WHERE '$tipo_doc' = tipo_doc AND  '$documento'  = documento AND  '$nombre_usuario' = usuario AND '$password' = password";
                 $resultado = mysqli_query($conexion, $query);
                 // si trajo una coincidencia , entonces guardo en la sesion el usuario y el documento para poder usarlo en otras paginas
                 if(mysqli_num_rows($resultado) == 1){

@@ -6,12 +6,32 @@
         $nombre_usuario = $_POST['usuario'];
         $passwordA = $_POST['passwordA'];
         $passwordB = $_POST['passwordB'];
+        $nombre = $_POST['nombre'];     
+        $apellido = $_POST['apellido'];
+        $fecha_nacimiento = $_POST['fecha_nacimiento'];
+        $email = $_POST['email'];       
+        $tipo_doc = $_POST['tipo_doc'];
         
         // Validación de campos obligatorios
         $errores = [];
 
+        if(empty($tipo_doc)) {
+            $errores[] = "El tipo de documento es obligatorio.";
+        }
         if(empty($documento)) {
             $errores[] = "El número de documento es obligatorio.";
+        }
+        if(empty($nombre)) {
+            $errores[] = "El nombre es obligatorio.";
+        }
+        if(empty($apellido)) {
+            $errores[] = "El apellido es obligatorio.";
+        }
+        if(empty($fecha_nacimiento)) {
+            $errores[] = "La fecha de nacimiento es obligatoria.";
+        }
+        if(empty($email)) {
+            $errores[] = "El correo electrónico es obligatorio.";
         }
         if(empty($nombre_usuario)){
             $errores[] = "El nombre de usuario es obligatorio.";
@@ -31,7 +51,7 @@
             }
             else{
                 // Buscar al usuario
-                $query_id = "SELECT * FROM usuarios WHERE documento = '$documento'";
+                $query_id = " SELECT * FROM usuarios WHERE documento = '$documento' AND tipo_doc = '$tipo_doc' AND nombre = '$nombre' AND apellido = '$apellido' AND fecha_nacimiento = '$fecha_nacimiento' AND email = '$email'";
                 $result_id = mysqli_query($conexion, $query_id);
                 
                 if(mysqli_num_rows($result_id) > 0 ) {
@@ -69,7 +89,7 @@
                 else{
                     // si entro aca es por que no el documento no tiene cuenta de alta , debe ir al banco o pedirle a luquita que le haga el alta de cuenta
                     echo "<p style='color: red;'>El número de documento NO está registrado.</p>";
-                    echo "<p style='color: red;'>Por favor, verifique el número de documento ingresado o acérquese a la entidad bancaria para abrir su cuenta.</p>";
+                    echo "<p style='color: red;'>o algunos de los datos ingresados son incorrectos.</p>";
                     echo  "Volver al <a href='../frontend/registro.html'>formulario de registro</a>";
                 }
                 
