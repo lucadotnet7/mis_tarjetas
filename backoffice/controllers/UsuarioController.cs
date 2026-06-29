@@ -14,13 +14,8 @@ namespace Backoffice.Controllers
 
         public List<Usuario> ObtenerUsuarios() => _servicio.ObtenerUsuarios();
         public bool AgregarUsuario(Usuario usuario) => _servicio.AgregarUsuario(usuario);
-
-        static void MostrarError(string mensaje)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\nOcurrió un error al intentar operar con la base de datos:");
-            Console.WriteLine(mensaje);
-            Console.ResetColor();
-        }
+        public Usuario? ObtenerUsuarioPorDocumento(string documento) => _servicio.ObtenerUsuarioPorDocumento(documento);
+        public Usuario? ObtenerUsuarioPorCorreoElectronico(string correo) => _servicio.ObtenerUsuarioPorCorreoElectronico(correo);
+        public bool EliminarUsuario(string documento) => _servicio.EliminarUsuario(documento);
     }
 }

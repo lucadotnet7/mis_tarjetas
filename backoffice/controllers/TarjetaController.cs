@@ -13,13 +13,11 @@ namespace Backoffice.Controllers
         }
 
         public List<Tarjeta> ObtenerTarjetas() => _servicio.ObtenerTarjetas();
-
-        static void MostrarError(string mensaje)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\nOcurrió un error al intentar operar con la base de datos:");
-            Console.WriteLine(mensaje);
-            Console.ResetColor();
-        }
+        public Tarjeta? ObtenerTarjetaPorNumeroTarjeta(string numTarjeta) => _servicio.ObtenerTarjetaPorNumeroTarjeta(numTarjeta);
+        public Tarjeta? ObtenerTarjetaPorNumeroCuenta(int numeroCuenta) => _servicio.ObtenerTarjetaPorNumeroCuenta(numeroCuenta);
+        public List<UsuarioTarjeta> ObtenerDetalleTarjeta(int numeroCuenta) => _servicio.ObtenerDetalleTarjeta(numeroCuenta);
+        public bool EliminarTarjeta(int numeroCuenta) => _servicio.EliminarTarjeta(numeroCuenta);
+        public bool InsertarTarjeta(Tarjeta nuevaTarjeta) => _servicio.AgregarTarjeta(nuevaTarjeta);
+        
     }
 }

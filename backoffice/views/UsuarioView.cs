@@ -1,64 +1,18 @@
+using System.Linq.Expressions;
 using Backoffice.Controllers;
 using Backoffice.Models;
 using Backoffice.Models.Services;
+using Backoffice.Views.Utils;
 
 namespace Backoffice.Views
 {
     public class UsuarioView
     {
         private readonly UsuarioController _controller;
-        private readonly UsuarioServicio _usuarioServicio = new UsuarioServicio();
 
         public UsuarioView()
         {
-            _controller = new UsuarioController(_usuarioServicio);
-        }
-
-        public void Init()
-        {
-            bool volver = false;
-
-            while(!volver)
-            {
-                Console.Clear();
-                Console.WriteLine("==================================================");
-                Console.WriteLine("      BACKOFFICE BANCARIO MI BANCO - USUARIOS     ");
-                Console.WriteLine("1. Ver usuarios");
-                Console.WriteLine("2. Cargar usuario");
-                Console.WriteLine("2. Editar usuario");
-                Console.WriteLine("2. Eliminar usuario");
-                Console.WriteLine("4. Volver al menú principal");
-                Console.WriteLine("==================================================");
-                Console.Write("Seleccione una opción: ");
-                
-                string? opcion = Console.ReadLine();
-
-                if(!string.IsNullOrEmpty(opcion))
-                {
-                    switch(opcion)
-                    {
-                        case "1":
-                            MostrarUsuarios();
-                            break;
-                        case "2":
-                            AgregarUsuario();
-                            break;
-                        case "4":
-                            MainMenu.Start();
-                            break;
-                        default:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Opción inválida.");
-                            break;
-                    }
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Opción inválida.");
-                    Environment.Exit(0);
-                }
-            }
+            _controller = new UsuarioController(new UsuarioServicio());
         }
 
         private void MostrarUsuarios()
@@ -77,7 +31,7 @@ namespace Backoffice.Views
             Console.ReadKey();
         }
 
-        private void AgregarUsuario()
+        public string AgregarUsuario()
         {
             Console.Clear();
             Console.WriteLine("==================================================");
@@ -98,27 +52,27 @@ namespace Backoffice.Views
             Console.WriteLine("Correo electronico: ");
             string? correoElectronico = Console.ReadLine();
 
-            if(!StringValido(nombre) || !StringValido(apellido) || !StringValido(documento) || !StringValido(correoElectronico))
+            if(!StringUtils.StringValido(nombre) || !StringUtils.StringValido(apellido) || !StringUtils.StringValido(documento) || !StringUtils.StringValido(correoElectronico))
             {
                 Console.WriteLine("Los datos ingresados no son validos. Intente nuevamente.");
                 Console.ReadLine();
-                Init();
+                return string.Empty;
             }
 
-            if(!StringValido(tipoDocumentoOpcion) || (tipoDocumentoOpcion != "1" && tipoDocumentoOpcion != "2"))
+            if(!StringUtils.StringValido(tipoDocumentoOpcion) || (tipoDocumentoOpcion != "1" && tipoDocumentoOpcion != "2"))
             {
                 Console.WriteLine("El tipo de documento ingresado no es valido. Intente nuevamente.");
                 Console.ReadLine();
-                Init();
+                return string.Empty;
             }
 
-            DateTime? fechaValida = ValidarFecha(fechaNacimiento);
+            DateTime? fechaValida = DateUtils.ValidarFecha(fechaNacimiento, "yyyy/MM/dd");
 
-            if(fechaValida is null)
+            if(fechaValida is null || fechaValida >= DateTime.Today)
             {
                 Console.WriteLine("La fecha de nacimiento ingresada no es valida. Intente nuevamente.");
                 Console.ReadLine();
-                Init();
+                return string.Empty;
             }
 
             var nuevoUsuario = new Usuario
@@ -131,50 +85,37 @@ namespace Backoffice.Views
                 CorreoElectronico = correoElectronico!,
             };
 
+            Usuario? usuarioMismoDoc = _controller.ObtenerUsuarioPorDocumento(nuevoUsuario.Documento);
+            Usuario? usuarioMismoCorreo = _controller.ObtenerUsuarioPorCorreoElectronico(nuevoUsuario.CorreoElectronico);
+
+            if(usuarioMismoDoc is not null)
+            {
+                Console.WriteLine($"El usuario con documento: {nuevoUsuario.Documento} ya existe.");
+                Console.ReadLine();
+                return string.Empty;
+            }
+
+            if(usuarioMismoCorreo is not null)
+            {
+                Console.WriteLine($"El usuario con correo electronico: {nuevoUsuario.CorreoElectronico} ya existe.");
+                Console.ReadLine();
+                return string.Empty;
+            }
+
             bool resultado = _controller.AgregarUsuario(nuevoUsuario);
 
             if(resultado)
             {
                 Console.WriteLine("Usuario agregado exitosamente!.");
                 Console.ReadLine();
-                Init();
+                return nuevoUsuario.Documento;
             }
             else
             {
                 Console.WriteLine("Ha ocurrido un error intentando agregar el usuario. Intente nuevamente.");
                 Console.ReadLine();
-                Init();
+                return string.Empty;
             }
-        }
-
-        public bool StringValido(string? valor)
-        {
-            if(string.IsNullOrEmpty(valor))
-                return false;
-            else
-                return true;
-        }
-
-        public DateTime? ValidarFecha(string? fecha)
-        {
-            if(StringValido(fecha))
-            {
-                string formatoFecha = "yyyy/MM/dd";
-                bool esFechaValida = DateTime.TryParseExact(
-                    fecha,
-                    formatoFecha,
-                    System.Globalization.CultureInfo.InvariantCulture, 
-                    System.Globalization.DateTimeStyles.None, 
-                    out DateTime fechaValida
-                );
-
-                if(esFechaValida)
-                    return fechaValida;
-                else
-                    return null;
-            }
-
-            return null;
         }
     }
 }

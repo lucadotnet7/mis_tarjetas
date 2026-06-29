@@ -7,6 +7,95 @@ namespace Backoffice.Models.Services
     {
         private string _connectionString = "Server=localhost;Port=3306;Database=banco_db;Uid=root;";
         
+        public Usuario? ObtenerUsuarioPorDocumento(string documento)
+        {
+            Usuario? usuario = null;
+            string query = @"SELECT documento, tipo_doc, nombre, apellido, fecha_nacimiento, 
+                                email, usuario, password, creado_el 
+                                FROM usuarios WHERE documento = @documento";
+            try
+            {
+                using (var conexion = new MySqlConnection(_connectionString))
+                {
+                    conexion.Open();
+                    using(var comando = new MySqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@documento", documento);
+                        using (MySqlDataReader lector = comando.ExecuteReader())
+                        {
+                            while(lector.Read())
+                            {
+                                Enum.TryParse(lector["tipo_doc"].ToString(), out ETipoDocumento tpDocumento);
+                                
+                                usuario = new Usuario
+                                {
+                                    Documento = lector["documento"].ToString() ?? "",
+                                    TipoDocumento = tpDocumento,
+                                    Nombre = lector["nombre"].ToString() ?? "",
+                                    Apellido = lector["apellido"].ToString() ?? "",
+                                    FechaNacimiento = (DateTime)lector["fecha_nacimiento"],
+                                    CorreoElectronico = lector["email"].ToString() ?? "",
+                                    NombreUsuario = lector["usuario"].ToString() ?? "",
+                                    Contrasenia = lector["password"].ToString() ?? "",
+                                };
+                                return usuario;
+                            }
+                            return usuario;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public Usuario? ObtenerUsuarioPorCorreoElectronico(string correo)
+        {
+            Usuario? usuario = null;
+            string query = @"SELECT documento, tipo_doc, nombre, apellido, fecha_nacimiento, 
+                                email, usuario, password, creado_el 
+                                FROM usuarios WHERE email = @correo";
+            try
+            {
+                using (var conexion = new MySqlConnection(_connectionString))
+                {
+                    conexion.Open();
+                    using(var comando = new MySqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@correo", correo);
+                        using (MySqlDataReader lector = comando.ExecuteReader())
+                        {
+                            while(lector.Read())
+                            {
+                                Enum.TryParse(lector["tipo_doc"].ToString(), out ETipoDocumento tpDocumento);
+                                
+                                usuario = new Usuario
+                                {
+                                    Documento = lector["documento"].ToString() ?? "",
+                                    TipoDocumento = tpDocumento,
+                                    Nombre = lector["nombre"].ToString() ?? "",
+                                    Apellido = lector["apellido"].ToString() ?? "",
+                                    FechaNacimiento = (DateTime)lector["fecha_nacimiento"],
+                                    CorreoElectronico = lector["email"].ToString() ?? "",
+                                    NombreUsuario = lector["usuario"].ToString() ?? "",
+                                    Contrasenia = lector["password"].ToString() ?? "",
+                                };
+                                return usuario;
+                            }
+                            return usuario;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
         public List<Usuario> ObtenerUsuarios()
         {
             var usuarios = new List<Usuario>();
@@ -54,7 +143,6 @@ namespace Backoffice.Models.Services
                     conexion.Open();
                     using (MySqlCommand comando = new MySqlCommand(query, conexion))
                     {
-                        // Parametrización de los datos de entrada
                         comando.Parameters.AddWithValue("@nombre", usuario.Nombre);
                         comando.Parameters.AddWithValue("@apellido", usuario.Apellido);
                         comando.Parameters.AddWithValue("@fecha_nacimiento", usuario.FechaNacimiento);
@@ -71,7 +159,35 @@ namespace Backoffice.Models.Services
                             return false;
                     }
                 }
-            } catch (Exception ex)
+            } 
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool EliminarUsuario(string documento)
+        {
+            try
+            {
+                string query = @"DELETE FROM usuarios WHERE documento = @documento";
+                using (var conexion = new MySqlConnection(_connectionString))
+                {
+                    conexion.Open();
+                    using (MySqlCommand comando = new MySqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@documento", documento);
+
+                        int filasAfectadas = comando.ExecuteNonQuery();
+
+                        if(filasAfectadas > 0)
+                            return true;
+                        else
+                            return false;
+                    }
+                }
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 return false;

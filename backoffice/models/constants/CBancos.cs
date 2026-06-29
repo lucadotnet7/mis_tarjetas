@@ -9,7 +9,7 @@ namespace Backoffice.Models.Constants
         public const string BancoFrances = "Banco BBVA";
         public const string BancoMacro = "Banco Macro";
 
-        public static readonly HashSet<string> Bancos = [
+        public static readonly List<string> Bancos = [
             BancoNacion, 
             BancoProvincia, 
             BancoGalicia, 
